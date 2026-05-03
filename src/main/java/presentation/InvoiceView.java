@@ -57,10 +57,11 @@ public class InvoiceView {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         System.out.println("=========== INVOICE LIST ===============");
         for(Invoice i:list){
-            System.out.println(i.getId()+" | "+
-                    i.getCustomer_id()+" | "+
-                    i.getCreated_at().format(formatter)+" | "+
-                    i.getTotal_amount()+" | ");
+            System.out.printf("%d | %d | %s | %,.0f\n",
+                    i.getId(),
+                    i.getCustomer_id(),
+                    formatter.format(i.getCreated_at()),
+                    i.getTotal_amount());
         }
     }
     public void add(){
@@ -123,7 +124,7 @@ public class InvoiceView {
                   }
 
                   double price = product.getPrice();
-                  System.out.println("Price: " + price);
+                  System.out.printf("Price: %,.0f\n", price);
                   boolean existed = false;
 
                   for (InvoiceDetail d : details) {
@@ -145,12 +146,21 @@ public class InvoiceView {
                   for (InvoiceDetail d : details) {
                       total += d.getQuantity() * d.getUnit_price();
                   }
-                  System.out.print("Add more product ? (Y/N):");
-                  String choice=sc.nextLine();
-                  if(!choice.equalsIgnoreCase("y")){
+                  String choice;
+                  while (true) {
+                      System.out.print("Add more product? (Y/N): ");
+                      choice = sc.nextLine().trim();
+
+                      if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("n")) {
+                          break;
+                      }
+                      System.out.println("Please enter Y or N!");
+                  }
+                  if (choice.equalsIgnoreCase("n")) {
                       break;
                   }
               }
+
               if(details.isEmpty()){
                   System.out.println("Invoice must have at least 1 product!");
                   continue;
@@ -193,23 +203,26 @@ public class InvoiceView {
         }
     }
     public void searchByName(){
-       try {
-           System.out.print("Enter Customer Name : ");
-           String name=sc.nextLine();
-           List<InvoiceDTO> list=service.searchByCustomer(name);
-           if(list.isEmpty()){
-               System.out.println("List is empty!");
-               return;
+       while (true){
+           try {
+               System.out.print("Enter Customer Name : ");
+               String name=sc.nextLine();
+               List<InvoiceDTO> list=service.searchByCustomer(name);
+               if(list.isEmpty()){
+                   System.out.println("List is empty!");
+                   return;
+               }
+               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+               for(InvoiceDTO i:list){
+                   System.out.printf("%d | %s | %s | %,.0f\n",
+                           i.getId(),
+                           i.getName(),
+                           i.getCreated_at().format(formatter),
+                           i.getTotal_amount());
+               }
+           }catch (Exception e){
+               System.out.println(e.getMessage());
            }
-           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-           for(InvoiceDTO i:list){
-               System.out.println(i.getId()+" | "+
-                       i.getName()+" | "+
-                       i.getCreated_at().format(formatter)+" | "+
-                       i.getTotal_amount()+" | ");
-           }
-       }catch (Exception e){
-           System.out.println(e.getMessage());
        }
     }
     public void searchByDate(){
@@ -218,7 +231,7 @@ public class InvoiceView {
                 System.out.print("Enter date (yyyy-MM-dd): ");
                 String date = sc.nextLine();
 
-                java.time.LocalDate.parse(date); // validate
+                java.time.LocalDate.parse(date);
 
                 List<Invoice> list = service.searchByDate(date);
 
@@ -229,10 +242,11 @@ public class InvoiceView {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                 for (Invoice i : list) {
-                    System.out.println(i.getId() + " | " +
-                            i.getCustomer_id() + " | " +
-                            i.getCreated_at().format(formatter) + " | " +
-                            i.getTotal_amount() + " | ");
+                    System.out.printf("%d | %d | %s | %,.0f\n",
+                            i.getId(),
+                            i.getCustomer_id(),
+                            i.getCreated_at().format(formatter),
+                            i.getTotal_amount());
                 }
                 break;
 
@@ -253,15 +267,6 @@ public class InvoiceView {
         }
     }
 
-    private double inputDouble(String msg) {
-        while (true) {
-            try {
-                System.out.print(msg);
-                return Double.parseDouble(sc.nextLine());
-            } catch (Exception e) {
-                System.out.println("Invalid number!");
-            }
-        }
-    }
+
 
 }

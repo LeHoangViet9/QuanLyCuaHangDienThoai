@@ -40,8 +40,11 @@ public class CustomerServiceImpl implements ICustomerService {
         if (customer == null) {
             throw new IllegalArgumentException("Customer not found!");
         }
-
-        dao.delete(id);
+        try {
+            dao.delete(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Customer is used in invoice, cannot delete!");
+        }
     }
 
     @Override
@@ -67,6 +70,9 @@ public class CustomerServiceImpl implements ICustomerService {
         }
         if (!isValidEmail(c.getEmail())) {
             throw new IllegalArgumentException("Invalid email!");
+        }
+        if (c.getAddress() == null || c.getAddress().isBlank()) {
+            throw new IllegalArgumentException("Address is required!");
         }
     }
 }

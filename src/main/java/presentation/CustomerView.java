@@ -128,7 +128,7 @@ public class CustomerView {
             int id=inputInt("Enter ID to update: ");
             Customer old=service.getCustomerById(id);
             if(old==null){
-                System.out.println("Cusotmer not found!");
+                System.out.println("Customer not found!");
                 return;
             }
             System.out.println("Old data: ");
@@ -140,12 +140,30 @@ public class CustomerView {
             System.out.print("New name ("+old.getName()+"): ");
             String name=sc.nextLine();
             if(name.isEmpty()) name= old.getName();
-            System.out.print("New phone ("+old.getPhone()+"): ");
-            String phone=sc.nextLine();
-            if(phone.isEmpty()) phone=old.getPhone();
-            System.out.print("New email("+old.getEmail()+"): ");
-            String email=sc.nextLine();
-            if(email.isEmpty()) email=old.getEmail();
+            String phone;
+            do {
+                System.out.print("New phone (" + old.getPhone() + "): ");
+                phone = sc.nextLine().trim();
+                if (phone.isEmpty()) {
+                    phone = old.getPhone();
+                    break;
+                }
+                if (!phone.matches("^0\\d{9}$")) {
+                    System.out.println("Invalid phone number!");
+                }
+            } while (!phone.matches("^0\\d{9}$"));
+            String email;
+            do {
+                System.out.print("New email (" + old.getEmail() + "): ");
+                email = sc.nextLine().trim();
+                if (email.isEmpty()) {
+                    email = old.getEmail();
+                    break;
+                }
+                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                    System.out.println("Invalid email!");
+                }
+            } while (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"));
             System.out.print("New address("+old.getAddress()+"): ");
             String address=sc.nextLine();
             if(address.isEmpty()) address=old.getAddress();

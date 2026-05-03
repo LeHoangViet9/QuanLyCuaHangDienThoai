@@ -170,7 +170,7 @@ public class ProductView {
                System.out.println("Cancelled!");
            }
        }catch (Exception e){
-           System.out.println(e.getMessage());
+           System.out.println("Cannot delete product because it is used in invoice!");
        }
     }
 

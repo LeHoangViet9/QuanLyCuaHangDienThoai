@@ -49,7 +49,7 @@ public class RevenueView {
                 if (res == 0) {
                     System.out.println("No revenue found for this day!");
                 } else {
-                    System.out.printf("Revenue on %s: %.2f\n", date, res);
+                    System.out.printf("Revenue on %s: %,.0f\n", date, res);
                 }
 
                 break;
@@ -76,7 +76,7 @@ public class RevenueView {
                     continue;
                 }
 
-                if (year <= 0) {
+                if (year <= 2000) {
                     System.out.println("Year must be > 0!");
                     continue;
                 }
@@ -92,7 +92,7 @@ public class RevenueView {
         if (res == 0) {
             System.out.println("No revenue found for this period!");
         } else {
-            System.out.printf("Revenue in %d/%d: %.2f\n", month, year, res);
+            System.out.printf("Revenue in %d/%d: %,.0f\n", month, year, res);
         }
 
     }
@@ -100,7 +100,7 @@ public class RevenueView {
         try {
             int year=inputInt("Enter year: ");
             double res=service.calRevenueByYear(year);
-            System.out.println("Revenue in "+year+" :"+res);
+            System.out.printf("Revenue in %d : %,.0f\n",year,res);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
