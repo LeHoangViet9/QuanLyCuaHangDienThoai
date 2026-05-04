@@ -29,10 +29,10 @@ public class MainView {
                 case 3 -> new InvoiceView().menuInvoice();
                 case 4 -> new RevenueView().menuRevenue();
                 case 5 -> {
-                    System.out.println("Đăng xuất!");
+                    System.out.println("Logout!");
                     return;
                 }
-                default -> System.out.println("Chọn sai!");
+                default -> System.out.println("Invalic choice!");
             }
         }
     }

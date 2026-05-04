@@ -220,6 +220,7 @@ public class InvoiceView {
                            i.getCreated_at().format(formatter),
                            i.getTotal_amount());
                }
+               break;
            }catch (Exception e){
                System.out.println(e.getMessage());
            }

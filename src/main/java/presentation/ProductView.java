@@ -118,7 +118,7 @@ public class ProductView {
 
                double price;
                while (true) {
-                   System.out.print("New price (" + old.getPrice() + "): ");
+                   System.out.printf("New price ( %,.0f)",old.getPrice());
                    String priceStr = sc.nextLine();
                    if (priceStr.isEmpty()) {
                        price = old.getPrice();

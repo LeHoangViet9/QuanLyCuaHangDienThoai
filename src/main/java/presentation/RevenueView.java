@@ -77,7 +77,7 @@ public class RevenueView {
                 }
 
                 if (year <= 2000) {
-                    System.out.println("Year must be > 0!");
+                    System.out.println("Year must be > 2000!");
                     continue;
                 }
 
